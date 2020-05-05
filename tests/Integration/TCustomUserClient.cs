@@ -14,8 +14,7 @@ namespace Integration
         [SetUp]
         public void Setup()
         {
-            var authenticator = new TokenUserComAuthenticator("educationsmediagroup", "F630R3g4wzzuxTkLvgd5GkMFjojuJBbuor6qSoyTiUPc9EWl4F37VCbGhZOQj6E4");
-            _client = new UserComClient(authenticator, new Mock<ILogger<UserComClient>>().Object);
+            _client = new UserComClient(ConfigHelper.GetAuthenticator(), Mock.Of<ILogger<UserComClient>>());
         }
 
         [Test]
