@@ -23,7 +23,7 @@ namespace UserCom
 
         async Task<AddTagResult> IUserComUsersClient.AddTagAsync(int userId, string tagName)
         {
-            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{USER_RESOURCE}/{userId}/add_tag", new { name = tagName });
+            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{USER_RESOURCE}/{userId}/add_tag/", new { name = tagName });
             var result = new AddTagResult
             {
                 Created = response.created,
@@ -36,6 +36,7 @@ namespace UserCom
         async Task<User> IUserComUsersClient.CreateAsync(CreateUserRequest request)
         {
             var result = await SendAsync<CreateUserRequest, User>(HttpMethod.Post, $"{USER_RESOURCE}/", request);
+
             return result;
         }
 
@@ -174,51 +175,56 @@ namespace UserCom
 
         async Task<string> IUserComUsersClient.MassUpdateAttributeAsync(IEnumerable<int> userIds, string attribute, string value)
         {
-            var result = await SendAsync<dynamic, dynamic>(HttpMethod.Put, $"{USER_RESOURCE}/mass_update_standard_attributes", new { ids = userIds, attribute, value });
+            var result = await SendAsync<dynamic, dynamic>(HttpMethod.Put, $"{USER_RESOURCE}/mass_update_standard_attributes/", new { ids = userIds, attribute, value });
 
             return result.status;
         }
 
         async Task IUserComUsersClient.MassUpdateCustomAttributeAsync(IEnumerable<int> userIds, string attribute, object value)
         {
-            await SendAsync<dynamic>(HttpMethod.Put, $"{USER_RESOURCE}/mass_update_custom_attributes", new { ids = userIds, attribute, value });
+            await SendAsync<dynamic>(HttpMethod.Put, $"{USER_RESOURCE}/mass_update_custom_attributes/", new { ids = userIds, attribute, value });
         }
 
         async Task IUserComUsersClient.RemoveAttributeAsync(int userId, string attributeName)
         {
-            await SendAsync<dynamic>(HttpMethod.Delete, $"{USER_RESOURCE}/{userId}/remove_attribute", new { attribute = attributeName });
+            await SendAsync<dynamic>(HttpMethod.Delete, $"{USER_RESOURCE}/{userId}/remove_attribute/", new { attribute = attributeName });
         }
 
         async Task IUserComUsersClient.RemoveListAsync(int userId, int listId)
         {
-            await SendAsync<dynamic>(HttpMethod.Delete, $"{USER_RESOURCE}/{userId}/remove_from_list", new { list = listId });
+            await SendAsync<dynamic>(HttpMethod.Delete, $"{USER_RESOURCE}/{userId}/remove_from_list/", new { list = listId });
         }
 
         async Task IUserComUsersClient.RemoveTagAsync(int userId, string tagName)
         {
-            await SendAsync(HttpMethod.Delete, $"{USER_RESOURCE}/{userId}/remove_tag", new { name = tagName });
+            await SendAsync(HttpMethod.Delete, $"{USER_RESOURCE}/{userId}/remove_tag/", new { name = tagName });
         }
 
         async Task IUserComUsersClient.SetAttributeAsync(int userId, (string attribute, object value) attribute)
         {
-            await SendAsync<dynamic>(HttpMethod.Post, $"{USER_RESOURCE}/{userId}/set_attribute", attribute);
+            await SendAsync<dynamic>(HttpMethod.Post, $"{USER_RESOURCE}/{userId}/set_attribute/", attribute);
         }
 
         async Task IUserComUsersClient.SetMultipleAttributesAsync(int userId, Dictionary<string, object> attributes)
         {
-            await SendAsync<Dictionary<string, object>>(HttpMethod.Post, $"{USER_RESOURCE}/{userId}/set_multiple_attributes", attributes);
+            await SendAsync<Dictionary<string, object>>(HttpMethod.Post, $"{USER_RESOURCE}/{userId}/set_multiple_attributes/", attributes);
         }
 
         async Task<User> IUserComUsersClient.UpdateAsync(UpdateUserRequest request)
         {
-            var result = await SendAsync<User>(HttpMethod.Put, $"{USER_RESOURCE}/{request.Id}");
+            if (request.Id == default)
+            {
+                throw new ArgumentException($"{nameof(request.Id)} is missing or invalid in request");
+            }
+
+            var result = await SendAsync<User>(HttpMethod.Put, $"{USER_RESOURCE}/{request.Id}/");
 
             return result;
         }
 
         async Task<UpdateOrCreateUser> IUserComUsersClient.UpdateOrCreateAsync(UpdateOrCreateUserRequest request)
         {
-            var result = await SendAsync<UpdateOrCreateUser>(HttpMethod.Post, $"{USER_RESOURCE}/update_or_create");
+            var result = await SendAsync<UpdateOrCreateUser>(HttpMethod.Post, $"{USER_RESOURCE}/update_or_create/");
 
             return result;
         }

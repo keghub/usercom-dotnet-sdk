@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace UserCom
 
         async Task<AddTagResult> IUserComCustomIdUsersClient.AddTagAsync(string userId, string tagName)
         {
-            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/add_tag", new { name = tagName });
+            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/add_tag/", new { name = tagName });
             var result = new AddTagResult
             {
                 Created = response.created,
@@ -33,7 +34,7 @@ namespace UserCom
 
         async Task IUserComCustomIdUsersClient.DeleteAsync(string userId)
         {
-            await SendAsync(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}");
+            await SendAsync(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/");
         }
 
         async Task<User> IUserComCustomIdUsersClient.FindByCustomIdAsync(string userId)
@@ -93,44 +94,49 @@ namespace UserCom
 
         async Task<string> IUserComCustomIdUsersClient.MassUpdateAttributeAsync(IEnumerable<string> userIds, string attribute, string value)
         {
-            var result = await SendAsync<dynamic, dynamic>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/mass_update_standard_attributes", new { ids = userIds, attribute, value });
+            var result = await SendAsync<dynamic, dynamic>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/mass_update_standard_attributes/", new { ids = userIds, attribute, value });
 
             return result.status;
         }
 
         async Task IUserComCustomIdUsersClient.MassUpdateCustomAttributeAsync(IEnumerable<string> userIds, string attribute, object value)
         {
-            await SendAsync<dynamic>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/mass_update_custom_attributes", new { ids = userIds, attribute, value });
+            await SendAsync<dynamic>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/mass_update_custom_attributes/", new { ids = userIds, attribute, value });
         }
 
         async Task IUserComCustomIdUsersClient.RemoveAttributeAsync(string userId, string attributeName)
         {
-            await SendAsync<dynamic>(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_attribute", new { attribute = attributeName });
+            await SendAsync<dynamic>(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_attribute/", new { attribute = attributeName });
         }
 
         async Task IUserComCustomIdUsersClient.RemoveListAsync(string userId, int listId)
         {
-            await SendAsync<dynamic>(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_from_list", new { list = listId });
+            await SendAsync<dynamic>(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_from_list/", new { list = listId });
         }
 
         async Task IUserComCustomIdUsersClient.RemoveTagAsync(string userId, string tagName)
         {
-            await SendAsync(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_tag", new { name = tagName });
+            await SendAsync(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_tag/", new { name = tagName });
         }
 
         async Task IUserComCustomIdUsersClient.SetAttributeAsync(string userId, (string attribute, object value) attribute)
         {
-            await SendAsync<dynamic>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/set_attribute", attribute);
+            await SendAsync<dynamic>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/set_attribute/", attribute);
         }
 
         async Task IUserComCustomIdUsersClient.SetMultipleAttributesAsync(string userId, Dictionary<string, object> attributes)
         {
-            await SendAsync<Dictionary<string, object>>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/set_multiple_attributes", attributes);
+            await SendAsync<Dictionary<string, object>>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/set_multiple_attributes/", attributes);
         }
 
         async Task<User> IUserComCustomIdUsersClient.UpdateAsync(UpdateOrCreateUserRequest request)
         {
-            var result = await SendAsync<User>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/{request.UserId}");
+            if(string.IsNullOrWhiteSpace(request.UserId))
+            {
+                throw new ArgumentException($"{nameof(request.UserId)} is missing or invalid in request");
+            }
+
+            var result = await SendAsync<User>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/{request.UserId}/");
 
             return result;
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace UserCom
 
         async Task<AddTagResult> IUserComCrmClient.AddCompanyTagAsync(int id, string name)
         {
-            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{COMPANY_RESOURCE}/{id}/add_tag", new { name });
+            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{COMPANY_RESOURCE}/{id}/add_tag/", new { name });
             var result = new AddTagResult
             {
                 Created = response.created,
@@ -62,12 +63,17 @@ namespace UserCom
 
         async Task IUserComCrmClient.SetCompanyMultipleAttributesAsync(int id, Dictionary<string, object> attributes)
         {
-            await SendAsync<Dictionary<string, object>>(HttpMethod.Post, $"{COMPANY_RESOURCE}/{id}/set_multiple_attributes", attributes);
+            await SendAsync<Dictionary<string, object>>(HttpMethod.Post, $"{COMPANY_RESOURCE}/{id}/set_multiple_attributes/", attributes);
         }
 
         async Task<Company> IUserComCrmClient.UpdateCompanyAsync(UpdateCompanyRequest request)
         {
-            var result = await SendAsync<Company>(HttpMethod.Put, $"{COMPANY_RESOURCE}/{request.Id}");
+            if (request.Id == default)
+            {
+                throw new ArgumentException($"{nameof(request.Id)} is missing or invalid in request");
+            }
+
+            var result = await SendAsync<Company>(HttpMethod.Put, $"{COMPANY_RESOURCE}/{request.Id}/");
 
             return result;
         }

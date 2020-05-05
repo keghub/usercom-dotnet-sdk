@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UserCom.Model.CRM;
@@ -10,9 +11,9 @@ namespace UserCom
     {
         private static string CUSTOMIDCOMPANY_RESOURCE = "/api/public/companies-by-id";
 
-        public async Task<AddTagResult> AddCompanyTagAsync(string companyId, string name)
+        async Task<AddTagResult> IUserComCustomIdCrmClient.AddCompanyTagAsync(string companyId, string name)
         {
-            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/add_tag", new { name });
+            var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/add_tag/", new { name });
             var result = new AddTagResult
             {
                 Created = response.created,
@@ -22,36 +23,41 @@ namespace UserCom
             return result;
         }
 
-        public async Task DeleteCompanyAsync(string companyId)
+        async Task IUserComCustomIdCrmClient.DeleteCompanyAsync(string companyId)
         {
-            await SendAsync(HttpMethod.Delete, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}");
+            await SendAsync(HttpMethod.Delete, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/");
         }
 
-        public async Task<Company> FindCompanyByIdAsync(string companyId)
+        async Task<Company> IUserComCustomIdCrmClient.FindCompanyByIdAsync(string companyId)
         {
             var result = await SendAsync<Company>(HttpMethod.Get, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/");
 
             return result;
         }
 
-        public async Task RemoveCompanyTagAsync(string companyId, string name)
+        async Task IUserComCustomIdCrmClient.RemoveCompanyTagAsync(string companyId, string name)
         {
             await SendAsync(HttpMethod.Delete, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/remove_tag/", new { name });
         }
 
-        public async Task SetCompanyAttributeAsync(string companyId, (string attribute, object value) attribute)
+        async Task IUserComCustomIdCrmClient.SetCompanyAttributeAsync(string companyId, (string attribute, object value) attribute)
         {
             await SendAsync<dynamic>(HttpMethod.Post, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/set_attribute/", attribute);
         }
 
-        public async Task SetCompanyMultipleAttributesAsync(string companyId, Dictionary<string, object> attributes)
+        async Task IUserComCustomIdCrmClient.SetCompanyMultipleAttributesAsync(string companyId, Dictionary<string, object> attributes)
         {
-            await SendAsync(HttpMethod.Post, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/set_multiple_attributes", attributes);
+            await SendAsync(HttpMethod.Post, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/set_multiple_attributes/", attributes);
         }
 
-        public async Task<Company> UpdateCompanyAsync(UpdateCompanyRequest request)
+        async Task<Company> IUserComCustomIdCrmClient.UpdateCompanyAsync(UpdateCompanyRequest request)
         {
-            var result = await SendAsync<Company>(HttpMethod.Put, $"{CUSTOMIDCOMPANY_RESOURCE}/{request.CompanyId}");
+            if (string.IsNullOrWhiteSpace(request.CompanyId))
+            {
+                throw new ArgumentException($"{nameof(request.CompanyId)} is missing or invalid in request");
+            }
+
+            var result = await SendAsync<Company>(HttpMethod.Put, $"{CUSTOMIDCOMPANY_RESOURCE}/{request.CompanyId}/");
 
             return result;
         }
