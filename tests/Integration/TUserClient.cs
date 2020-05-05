@@ -5,10 +5,11 @@ using NUnit.Framework;
 using UserCom;
 using UserCom.Authentication;
 using UserCom.Model.Users;
+using UserCom.Model.Users.Requests;
 
 namespace Integration
 {
-    public class Tests
+    public class TUserClient
     {
         private IUserComUsersClient _client;
 
@@ -33,7 +34,7 @@ namespace Integration
         {
             var response = await _client.FilterAsync(new UserFilter[] { });
 
-            Assert.Greater(response.Count, 1);
+            Assert.That(response.Count, Is.GreaterThan(1));
         }
 
         [Test]
@@ -42,7 +43,26 @@ namespace Integration
             var response = await _client.FilterAsync(new UserFilter[] { });
             var next = response.Next.Value;
 
-            Assert.NotNull(next);
+            Assert.That(next, Is.Not.Null);
+        }
+
+        [Test]
+        public void CreateUserShouldReturnOk()
+        {
+            const string EMAIL = "test2@educations.com";
+
+            Assert.DoesNotThrowAsync(async () =>
+            {
+                var response = await _client.CreateAsync(new CreateUserRequest
+                {
+                    Email = EMAIL,
+                    FirstName = "Integration",
+                    LastName = "Tests",
+                    UserId = "acustomuserid"
+                });
+
+                Assert.That(response.Email, Is.EqualTo(EMAIL));
+            });
         }
     }
 }

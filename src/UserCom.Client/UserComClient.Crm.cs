@@ -25,7 +25,7 @@ namespace UserCom
 
         async Task<Company> IUserComCrmClient.CreateCompanyAsync(CreateCompanyRequest request)
         {
-            var result = await SendAsync<CreateCompanyRequest, Company>(HttpMethod.Post, $"{COMPANY_RESOURCE}", request);
+            var result = await SendAsync<CreateCompanyRequest, Company>(HttpMethod.Post, $"{COMPANY_RESOURCE}/", request);
 
             return result;
         }

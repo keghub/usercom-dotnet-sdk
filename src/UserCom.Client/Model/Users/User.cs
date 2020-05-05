@@ -11,10 +11,6 @@ namespace UserCom.Model.Users
     {
         public string Email { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
         public DateTime UpdatedAt { get; set; }
 
         public IReadOnlyList<UserCompany> Companies { get; set; }
@@ -27,7 +23,7 @@ namespace UserCom.Model.Users
 
         public IReadOnlyList<Tag> Tags { get; set; }
 
-        public DateTime LastContacted { get; set; }
+        public DateTime? LastContacted { get; set; }
 
         public string? PhoneNumber { get; set; }
 
@@ -80,5 +76,11 @@ namespace UserCom.Model.Users
         public string? BrowserLanguage { get; set; }
 
         public int Id { get; set; }
+
+        public string? UserId { get; set; }
+
+        public bool WebPushSubscription { get; set; }
+
+        public int? AssignedTo { get; set; }
     }
 }

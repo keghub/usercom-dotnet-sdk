@@ -26,8 +26,8 @@ namespace UserCom
             var response = await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{USER_RESOURCE}/{userId}/add_tag", new { name = tagName });
             var result = new AddTagResult
             {
-                 Created = response.created,
-                 TagName = response.tag.name
+                Created = response.created,
+                TagName = response.tag.name
             };
 
             return result;
@@ -35,8 +35,7 @@ namespace UserCom
 
         async Task<User> IUserComUsersClient.CreateAsync(CreateUserRequest request)
         {
-            var result = await SendAsync<CreateUserRequest, User>(HttpMethod.Post, $"{USER_RESOURCE}", request);
-
+            var result = await SendAsync<CreateUserRequest, User>(HttpMethod.Post, $"{USER_RESOURCE}/", request);
             return result;
         }
 
@@ -48,7 +47,7 @@ namespace UserCom
         async Task<PaginatedResult<User>> IUserComUsersClient.FilterAsync(IEnumerable<UserFilter> filters)
         {
             var builder = new HttpQueryStringBuilder();
-            foreach(var filter in filters)
+            foreach (var filter in filters)
             {
                 var param = filter.ToQueryParam();
                 builder.Add(param.key, param.value);
@@ -63,7 +62,7 @@ namespace UserCom
         async Task<PaginatedResult<User>> IUserComUsersClient.FilterByCustomAttributesAsync(IEnumerable<CustomAttributeFilter> filters)
         {
             var builder = new HttpQueryStringBuilder();
-            foreach(var filter in filters)
+            foreach (var filter in filters)
             {
                 var param = filter.ToQueryParam();
                 builder.Add(param.key, param.value);
