@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
+using AutoFixture.NUnit3;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using UserCom;
-using UserCom.Authentication;
 using UserCom.Model.Users;
 using UserCom.Model.Users.Requests;
 
@@ -19,13 +19,12 @@ namespace Integration
             _client = new UserComClient(ConfigHelper.GetAuthenticator(), Mock.Of<ILogger<UserComClient>>());
         }
 
-        [Test]
-        public void GetUserByIdShouldReturnUser()
+        [TestCase(1)]
+        public async Task GetUserByIdShouldReturnUser(int userId)
         {
-            Assert.DoesNotThrowAsync(async () =>
-            {
-                var response = await _client.FindByIdAsync(1);
-            });
+            var response = await _client.FindByIdAsync(userId);
+
+            Assert.That(response.Id, Is.EqualTo(userId));
         }
 
         [Test]
@@ -45,23 +44,20 @@ namespace Integration
             Assert.That(next, Is.Not.Null);
         }
 
-        [Test]
-        public void CreateUserShouldReturnOk()
+        [Test, AutoData]
+        public async Task CreateUserShouldReturnOk(string customName, string customId)
         {
-            const string EMAIL = "test2@educations.com";
+            string email = $"{customName}@test.educations.com";
 
-            Assert.DoesNotThrowAsync(async () =>
+            var response = await _client.CreateAsync(new CreateUserRequest
             {
-                var response = await _client.CreateAsync(new CreateUserRequest
-                {
-                    Email = EMAIL,
-                    FirstName = "Integration",
-                    LastName = "Tests",
-                    UserId = "acustomuserid"
-                });
-
-                Assert.That(response.Email, Is.EqualTo(EMAIL));
+                Email = email,
+                FirstName = customName,
+                LastName = "Tests",
+                UserId = customId
             });
+
+            Assert.That(response.Email, Is.EqualTo(email));
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoFixture.NUnit3;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 using UserCom;
 using UserCom.Model.Tags;
 
@@ -16,15 +18,12 @@ namespace Integration
             _client = new UserComClient(ConfigHelper.GetAuthenticator(), Mock.Of<ILogger<UserComClient>>());
         }
 
-        [Test]
-        public void GetAllShouldReturnResults()
+        [Test, AutoData]
+        public async Task GetAllShouldReturnResults()
         {
-            Assert.DoesNotThrowAsync(async () =>
-            {
-                var response = await _client.GetAllAsync();
+            var response = await _client.GetAllAsync();
 
-                Assert.That(response.Count, Is.GreaterThan(1));
-            });
+            Assert.That(response.Count, Is.GreaterThan(1));
         }
     }
 }
