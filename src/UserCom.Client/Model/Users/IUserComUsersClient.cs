@@ -12,7 +12,7 @@ namespace UserCom.Model.Users
 
         Task<User> UpdateAsync(UpdateUserRequest request);
 
-        Task<UpdateOrCreateUser> UpdateOrCreateAsync(UpdateOrCreateUserRequest request);
+        Task<UpdateOrCreateUserResponse> UpdateOrCreateAsync(UpdateOrCreateUserRequest request);
 
         Task<User> FindByEmailAsync(string email);
         

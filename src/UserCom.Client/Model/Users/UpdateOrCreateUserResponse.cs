@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace UserCom.Model.Users
 {
-    public class AddTagResult
+    public class UpdateOrCreateUserResponse
     {
         [JsonProperty("created")]
         public bool Created { get; set; }
 
-        [JsonProperty("tag_name")]
-        public string TagName { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
     }
 }
