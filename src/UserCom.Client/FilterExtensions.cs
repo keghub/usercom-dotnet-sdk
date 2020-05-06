@@ -6,80 +6,31 @@ namespace UserCom
     {
         public static (string key, string value) ToQueryParam(this CustomAttributeFilter filter)
         {
-            var key = filter.Name;
-            switch (filter.Lookup)
+            return (filter.Lookup switch
             {
-                case CustomAttributeLookup.Contains:
-                    key = $"{key}__contains";
-                    break;
-
-                case CustomAttributeLookup.ContainsCaseInsensitive:
-                    key = $"{key}__icontains";
-                    break;
-
-                case CustomAttributeLookup.EndsWith:
-                    key = $"{key}__endswith";
-                    break;
-
-                case CustomAttributeLookup.EndsWithCaseInsensitive:
-                    key = $"{key}__iendswith";
-                    break;
-
-                case CustomAttributeLookup.StartsWith:
-                    key = $"{key}__startswith";
-                    break;
-
-                case CustomAttributeLookup.StartsWithCaseInsensitive:
-                    key = $"{key}__istartswith";
-                    break;
-
-                case CustomAttributeLookup.GreaterThan:
-                    key = $"{key}__gt";
-                    break;
-
-                case CustomAttributeLookup.GreaterOrEqualThan:
-                    key = $"{key}__gte";
-                    break;
-
-                case CustomAttributeLookup.LessThan:
-                    key = $"{key}__lt";
-                    break;
-
-                case CustomAttributeLookup.LessOrEqualThan:
-                    key = $"{key}__lte";
-                    break;
-            }
-
-            return (key, filter.Value.ToString());
+                CustomAttributeLookup.Contains => $"{filter.Name}__contains",
+                CustomAttributeLookup.ContainsCaseInsensitive => $"{filter.Name}__icontains",
+                CustomAttributeLookup.EndsWith => $"{filter.Name}__endswith",
+                CustomAttributeLookup.EndsWithCaseInsensitive => $"{filter.Name}__iendswith",
+                CustomAttributeLookup.StartsWith => $"{filter.Name}__startswith",
+                CustomAttributeLookup.StartsWithCaseInsensitive => $"{filter.Name}__istartswith",
+                CustomAttributeLookup.GreaterThan => $"{filter.Name}__gt",
+                CustomAttributeLookup.GreaterOrEqualThan => $"{filter.Name}__gte",
+                CustomAttributeLookup.LessThan => $"{filter.Name}__lt",
+                CustomAttributeLookup.LessOrEqualThan => $"{filter.Name}__lte"
+            }, filter.Value.ToString());
         }
 
         public static (string key, string value) ToQueryParam(this UserFilter filter)
         {
-            var key = filter.Name;
-            switch (filter.Lookup)
+            return (filter.Lookup switch
             {
-                case UserLookup.Contains:
-                    key = $"{key}__contains";
-                    break;
-
-                case UserLookup.GreaterThan:
-                    key = $"{key}__gt";
-                    break;
-
-                case UserLookup.GreaterOrEqualThan:
-                    key = $"{key}__gte";
-                    break;
-
-                case UserLookup.LessThan:
-                    key = $"{key}__lt";
-                    break;
-
-                case UserLookup.LessOrEqualThan:
-                    key = $"{key}__lte";
-                    break;
-            }
-
-            return (key, filter.Value.ToString());
+                UserLookup.Contains => $"{filter.Name}__contains",
+                UserLookup.GreaterThan => $"{filter.Name}__gt",
+                UserLookup.GreaterOrEqualThan => $"{filter.Name}_gte",
+                UserLookup.LessThan => $"{filter.Name}__lt",
+                UserLookup.LessOrEqualThan => $"{filter.Name}__lte"
+            }, filter.Value.ToString());
         }
     }
 }
