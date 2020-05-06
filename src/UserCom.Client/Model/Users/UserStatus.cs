@@ -1,8 +1,12 @@
+using System.Runtime.Serialization;
+
 namespace UserCom.Model.Users
 {
     public enum UserStatus
     {
-        Visitor = 1,
-        User = 2
+        [EnumMember(Value = "visitor")]
+        Visitor,
+        [EnumMember(Value = "user")]
+        User
     }
 }
