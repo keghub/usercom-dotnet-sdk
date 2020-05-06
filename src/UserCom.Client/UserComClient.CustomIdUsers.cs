@@ -129,7 +129,7 @@ namespace UserCom
             await SendAsync<Dictionary<string, object>>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/set_multiple_attributes/", attributes);
         }
 
-        async Task<User> IUserComCustomIdUsersClient.UpdateAsync(UpdateOrCreateUserRequest request)
+        async Task<User> IUserComCustomIdUsersClient.UpdateAsync(UpdateCustomIdUserRequest request)
         {
             if(string.IsNullOrWhiteSpace(request.UserId))
             {

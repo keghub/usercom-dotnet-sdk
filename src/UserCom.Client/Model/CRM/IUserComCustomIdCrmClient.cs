@@ -6,7 +6,7 @@ namespace UserCom.Model.CRM
 {
     public interface IUserComCustomIdCrmClient
     {
-        Task<Company> UpdateCompanyAsync(UpdateCompanyRequest request);
+        Task<Company> UpdateCompanyAsync(UpdateCustomIdCompanyRequest request);
 
         Task DeleteCompanyAsync(string companyId);
 

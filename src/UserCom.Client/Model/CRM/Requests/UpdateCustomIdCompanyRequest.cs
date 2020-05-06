@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace UserCom.Model.CRM.Requests
 {
-    public class UpdateCustomCompanyRequest
+    public class UpdateCustomIdCompanyRequest
     {
         [JsonProperty("name")]
         public string Name { get; set; }

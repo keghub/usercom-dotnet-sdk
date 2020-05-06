@@ -50,7 +50,7 @@ namespace UserCom
             await SendAsync(HttpMethod.Post, $"{CUSTOMIDCOMPANY_RESOURCE}/{companyId}/set_multiple_attributes/", attributes);
         }
 
-        async Task<Company> IUserComCustomIdCrmClient.UpdateCompanyAsync(UpdateCompanyRequest request)
+        async Task<Company> IUserComCustomIdCrmClient.UpdateCompanyAsync(UpdateCustomIdCompanyRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.CompanyId))
             {

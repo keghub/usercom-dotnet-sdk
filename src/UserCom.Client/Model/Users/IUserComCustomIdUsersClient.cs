@@ -7,7 +7,7 @@ namespace UserCom.Model.Users
 {
     public interface IUserComCustomIdUsersClient
     {
-         Task<User> UpdateAsync(UpdateOrCreateUserRequest request);
+         Task<User> UpdateAsync(UpdateCustomIdUserRequest request);
 
          Task<User> FindByCustomIdAsync(string userId);
 
