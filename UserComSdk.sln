@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserCom.Client", "src\UserC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4AF35126-2CC4-4FEB-9B29-2B74F2A0B246}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserCom", "tests\UserCom\UserCom.csproj", "{346A0487-1727-407D-AD41-3B2D2BF86BD9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserCom", "tests\UserCom\Tests.UserCom.csproj", "{346A0487-1727-407D-AD41-3B2D2BF86BD9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration", "tests\Integration\Integration.csproj", "{C029BDD2-AB9E-4492-8451-D96AABCC1874}"
 EndProject
