@@ -2,20 +2,20 @@ namespace UserCom.Client.Model.Users
 {
     public static class AttributeNames
     {
-        public static string Email { get; } = "email";
+        public static readonly string Email = "email";
 
-        public static string Key { get; } = "key";
+        public static readonly string Key = "key";
 
-        public static string PhoneNumber { get; } = "phone_number";
+        public static readonly string PhoneNumber = "phone_number";
 
-        public static string UserId { get; } = "user_id";
+        public static readonly string UserId = "user_id";
 
-        public static string FirstSeen { get; } = "first_seen";
+        public static readonly string FirstSeen = "first_seen";
 
-        public static string LastSeen { get; } = "last_seen";
+        public static readonly string LastSeen = "last_seen";
 
-        public static string LastContacted { get; } = "last_contacted";
+        public static readonly string LastContacted = "last_contacted";
 
-        public static string UpdatedAt { get; } = "updated_at";
+        public static readonly string UpdatedAt = "updated_at";
     }
 }
