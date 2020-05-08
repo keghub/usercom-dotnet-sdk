@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using UserCom.Model;
+using UserCom.Model.Attributes;
 using UserCom.Model.CRM;
 using UserCom.Model.Lists;
 using UserCom.Model.Tags;
@@ -76,5 +77,7 @@ namespace UserCom
         public IUserComListsClient Lists => this;
 
         public IUserComTagsClient Tags => this;
+
+        public IUserComAttributesClient Attributes => this;
     }
 }

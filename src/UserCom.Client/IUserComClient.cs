@@ -1,3 +1,4 @@
+using UserCom.Model.Attributes;
 using UserCom.Model.CRM;
 using UserCom.Model.Lists;
 using UserCom.Model.Tags;
@@ -18,5 +19,7 @@ namespace UserCom
         IUserComListsClient Lists { get; }
 
         IUserComTagsClient Tags { get; }
+
+        IUserComAttributesClient Attributes { get; }
     }
 }

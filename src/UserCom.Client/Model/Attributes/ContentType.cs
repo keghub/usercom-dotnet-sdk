@@ -4,8 +4,6 @@ namespace UserCom.Model.Attributes
 {
     public enum ContentType
     {
-        [EnumMember(Value = "client")]
-        Client,
         [EnumMember(Value = "user")]
         User,
         [EnumMember(Value = "company")]
