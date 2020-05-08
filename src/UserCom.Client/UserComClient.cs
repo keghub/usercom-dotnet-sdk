@@ -7,6 +7,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using UserCom.Model;
+using UserCom.Model.Attributes;
+using UserCom.Model.CRM;
+using UserCom.Model.Lists;
+using UserCom.Model.Tags;
 using UserCom.Model.Users;
 
 namespace UserCom
@@ -63,5 +67,17 @@ namespace UserCom
         };
 
         public IUserComUsersClient Users => this;
+
+        public IUserComCustomIdUsersClient CustomIdUsers => this;
+
+        public IUserComCrmClient Crm => this;
+
+        public IUserComCustomIdCrmClient CustomIdCrm => this;
+
+        public IUserComListsClient Lists => this;
+
+        public IUserComTagsClient Tags => this;
+
+        public IUserComAttributesClient Attributes => this;
     }
 }

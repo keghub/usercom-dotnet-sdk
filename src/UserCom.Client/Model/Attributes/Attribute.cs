@@ -11,7 +11,7 @@ namespace UserCom.Model.Attributes
         public ContentType ContentType { get; set; }
 
         [JsonProperty("name_std")]
-        public string NameStd { get; set; }
+        public string UrlFriendlyName { get; set; }
 
         [JsonProperty("value_type")]
         public ValueType ValueType { get; set; }
