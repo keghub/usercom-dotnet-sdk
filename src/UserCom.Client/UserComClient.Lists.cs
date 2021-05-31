@@ -23,7 +23,7 @@ namespace UserCom
 
         async Task<PaginatedResult<List>> IUserComListsClient.GetAllAsync()
         {
-            var result = await SendAsync<dynamic>(HttpMethod.Get, $"{LISTS_RESOURCE}");
+            var result = await SendAsync<dynamic>(HttpMethod.Get, $"{LISTS_RESOURCE}/");
             var paginatedResult = CreatePaginatedResult<List>(result);
 
             return paginatedResult;

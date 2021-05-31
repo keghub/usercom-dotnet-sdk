@@ -5,8 +5,8 @@ namespace UserCom.Model.Users
     public enum UserStatus
     {
         [EnumMember(Value = "visitor")]
-        Visitor,
+        Visitor = 1,
         [EnumMember(Value = "user")]
-        User
+        User = 2
     }
 }

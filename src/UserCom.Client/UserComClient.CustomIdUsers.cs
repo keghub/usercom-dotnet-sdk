@@ -106,17 +106,17 @@ namespace UserCom
 
         async Task IUserComCustomIdUsersClient.RemoveAttributeAsync(string userId, string attributeName)
         {
-            await SendAsync<dynamic>(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_attribute/", new { attribute = attributeName });
+            await SendAsync<dynamic>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_attribute/", new { attribute = attributeName });
         }
 
         async Task IUserComCustomIdUsersClient.RemoveListAsync(string userId, int listId)
         {
-            await SendAsync<dynamic>(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_from_list/", new { list = listId });
+            await SendAsync<dynamic>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_from_list/", new { list = listId });
         }
 
         async Task IUserComCustomIdUsersClient.RemoveTagAsync(string userId, string tagName)
         {
-            await SendAsync(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_tag/", new { name = tagName });
+            await SendAsync(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/remove_tag/", new { name = tagName });
         }
 
         async Task IUserComCustomIdUsersClient.SetAttributeAsync(string userId, (string attribute, object value) attribute)
@@ -136,7 +136,7 @@ namespace UserCom
                 throw new ArgumentException($"{nameof(request.UserId)} is missing or invalid in request");
             }
 
-            var result = await SendAsync<User>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/{request.UserId}/");
+            var result = await SendAsync<UpdateCustomIdUserRequest, User>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/{request.UserId}/", request);
 
             return result;
         }
