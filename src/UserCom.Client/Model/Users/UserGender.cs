@@ -5,10 +5,10 @@ namespace UserCom.Model.Users
     public enum UserGender
     {
         [EnumMember(Value = "unknown")]
-        Unknown,
-        [EnumMember(Value = "female")]
-        Female = 2,
+        Unknown = 1,
         [EnumMember(Value = "male")]
-        Male = 3
+        Male = 2,
+        [EnumMember(Value = "female")]
+        Female = 3
     }
 }

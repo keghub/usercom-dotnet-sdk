@@ -68,5 +68,23 @@ namespace UserCom.Model.Users.Requests
 
         [JsonProperty("user_id")]
         public string? UserId { get; set; }
+
+        [JsonProperty("birth_year")]
+        public int? BirthYear { get; set; }
+
+        [JsonProperty("job_title")]
+        public string? JobTitle { get; set; }
+
+        [JsonProperty("nationality")]
+        public string? Nationality { get; set; }
+
+        [JsonProperty("zip")]
+        public string? Zip { get; set; }
+
+        [JsonProperty("previous_education")]
+        public string? PreviousEducation { get; set; }
+
+        [JsonProperty("next_education_start_year")]
+        public int? NextEducationStartYear { get; set; }
     }
 }

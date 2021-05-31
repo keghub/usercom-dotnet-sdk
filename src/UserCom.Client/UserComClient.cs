@@ -56,10 +56,6 @@ namespace UserCom
         {
             DefaultValueHandling = DefaultValueHandling.Ignore,
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            Converters = new []
-            {
-                new StringEnumConverter()
-            },
             ContractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new SnakeCaseNamingStrategy()
