@@ -224,7 +224,7 @@ namespace UserCom
 
         async Task<UpdateOrCreateUserResponse> IUserComUsersClient.UpdateOrCreateAsync(UpdateOrCreateUserRequest request)
         {
-            var result = await SendAsync<UpdateOrCreateUserResponse>(HttpMethod.Post, $"{USER_RESOURCE}/update_or_create/");
+            var result = await SendAsync<UpdateOrCreateUserRequest, UpdateOrCreateUserResponse>(HttpMethod.Post, $"{USER_RESOURCE}/update_or_create/", request);
 
             return result;
         }
