@@ -16,6 +16,8 @@ namespace UserCom.Model.Users
         Task<PaginatedResult<Segment>> GetSegmentsAsync(string userId);
 
         Task<AddTagResult> AddTagAsync(string userId, string tagName);
+
+        Task AddManyTagsAsync(string userId, IEnumerable<string> tagNames);
         
         Task RemoveTagAsync(string userId, string tagName);
 
