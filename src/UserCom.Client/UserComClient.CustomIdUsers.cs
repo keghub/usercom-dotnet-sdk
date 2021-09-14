@@ -32,6 +32,11 @@ namespace UserCom
             return result;
         }
 
+        async Task IUserComCustomIdUsersClient.AddManyTagsAsync(string userId, IEnumerable<string> tagNames)
+        {
+            await SendAsync(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/add_many_tags/", new { tag_names = tagNames });
+        }
+
         async Task IUserComCustomIdUsersClient.DeleteAsync(string userId)
         {
             await SendAsync(HttpMethod.Delete, $"{CUSTOMIDUSER_RESOURCE}/{userId}/");
