@@ -14,6 +14,6 @@ namespace UserCom.Model.Users.Requests
         public long Timestamp { get; set; }
 
         [JsonProperty("data")]
-        public object MemberDataJson { get; set; }
+        public object Data { get; set; }
     }
 }
