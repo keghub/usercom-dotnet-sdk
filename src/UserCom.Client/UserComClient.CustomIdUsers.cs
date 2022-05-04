@@ -65,6 +65,12 @@ namespace UserCom
             return paginatedResult;
         }
 
+        async Task<AddEventResult> IUserComCustomIdUsersClient.AddEventAsync(string userId, AddEventRequest request)
+        {
+            var result = await SendAsync<AddEventRequest, AddEventResult>(HttpMethod.Post, $"{CUSTOMIDUSER_RESOURCE}/{userId}/events/", request);
+            return result;
+        }
+
         async Task<PaginatedResult<UserPingHit>> IUserComCustomIdUsersClient.GetPingHitsAsync(string userId)
         {
             var result = await SendAsync<dynamic>(HttpMethod.Get, $"{CUSTOMIDUSER_RESOURCE}/{userId}/ping_hits/");
