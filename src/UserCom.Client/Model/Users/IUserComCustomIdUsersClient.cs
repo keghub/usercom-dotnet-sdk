@@ -37,6 +37,8 @@ namespace UserCom.Model.Users
 
         Task<PaginatedResult<UserEvent>> GetEventsAsync(string userId);
 
+        Task<AddEventResult> AddEventAsync(string userId, AddEventRequest request);
+
         Task<PaginatedResult<UserEmail>> GetEmailsAsync(string userId);
 
         Task<PaginatedResult<UserProductEvent>> GetProductEventsAsync(string userId);
