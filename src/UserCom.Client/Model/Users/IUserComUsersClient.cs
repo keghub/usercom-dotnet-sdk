@@ -14,8 +14,8 @@ namespace UserCom.Model.Users
 
         Task<UpdateOrCreateUserResponse> UpdateOrCreateAsync(UpdateOrCreateUserRequest request);
 
-        Task<User> FindByEmailAsync(string email);
-        
+        Task<IReadOnlyList<User>> FindByEmailAsync(string email);
+
         Task<User> FindByKeyAsync(string key);
 
         Task<User> FindByPhoneNumberAsync(string phoneNumber);
