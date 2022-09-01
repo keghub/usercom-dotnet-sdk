@@ -88,12 +88,13 @@ namespace UserCom
             return paginatedResult;
         }
 
-        async Task<User> IUserComUsersClient.FindByEmailAsync(string email)
+        async Task<IReadOnlyList<User>> IUserComUsersClient.FindByEmailAsync(string email)
         {
             var builder = new HttpQueryStringBuilder();
             builder.Add("email", email);
+            builder.Add("many", true);
 
-            var result = await SendAsync<User>(HttpMethod.Get, $"{USER_RESOURCE}/search/", builder.BuildQuery());
+            var result = await SendAsync<User[]>(HttpMethod.Get, $"{USER_RESOURCE}/search/", builder.BuildQuery());
 
             return result;
         }
