@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Kralizek.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -19,14 +20,28 @@ namespace UserCom
     {
         private readonly ILogger<UserComClient> _logger;
 
-        public UserComClient(UserComAuthenticator userComAuthenticator, ILogger<UserComClient> logger) : base(CreateClient(userComAuthenticator), SerializerSettings, logger)
+        public UserComClient(UserComAuthenticator userComAuthenticator, ILogger<UserComClient> logger) : base(CreateClient(userComAuthenticator, logger), SerializerSettings, logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        private static HttpClient CreateClient(UserComAuthenticator authenticator)
+        private static HttpClient CreateClient(UserComAuthenticator authenticator, ILogger<UserComClient> logger)
         {
-            return new HttpClient(authenticator) { BaseAddress = authenticator.ServiceUri };
+            var client = new HttpClient(authenticator) { BaseAddress = authenticator.ServiceUri };
+            
+            if (client != null && logger != null)
+            {
+                if (client.DefaultRequestHeaders != null)
+                {
+                    logger.LogInformation(new EventId(100), $"Authorization header is: {client.DefaultRequestHeaders.Authorization} for {authenticator.ServiceUri}");
+                }
+                else
+                {
+                    logger.LogInformation(new EventId(101), $"Request headers are empty for: {authenticator.ServiceUri}");
+                }                
+            }
+
+            return client;
         }
 
         private PaginatedResult<T> CreatePaginatedResult<T>(dynamic obj)
