@@ -20,28 +20,14 @@ namespace UserCom
     {
         private readonly ILogger<UserComClient> _logger;
 
-        public UserComClient(UserComAuthenticator userComAuthenticator, ILogger<UserComClient> logger) : base(CreateClient(userComAuthenticator, logger), SerializerSettings, logger)
+        public UserComClient(UserComAuthenticator userComAuthenticator, ILogger<UserComClient> logger) : base(CreateClient(userComAuthenticator), SerializerSettings, logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        private static HttpClient CreateClient(UserComAuthenticator authenticator, ILogger<UserComClient> logger)
+        private static HttpClient CreateClient(UserComAuthenticator authenticator)
         {
-            var client = new HttpClient(authenticator) { BaseAddress = authenticator.ServiceUri };
-            
-            if (client != null && logger != null)
-            {
-                if (client.DefaultRequestHeaders != null)
-                {
-                    logger.LogInformation(new EventId(100), $"Authorization header is: {client.DefaultRequestHeaders.Authorization} for {authenticator.ServiceUri}");
-                }
-                else
-                {
-                    logger.LogInformation(new EventId(101), $"Request headers are empty for: {authenticator.ServiceUri}");
-                }                
-            }
-
-            return client;
+            return new HttpClient(authenticator) { BaseAddress = authenticator.ServiceUri };
         }
 
         private PaginatedResult<T> CreatePaginatedResult<T>(dynamic obj)
