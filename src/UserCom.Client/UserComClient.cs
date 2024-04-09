@@ -4,7 +4,6 @@ using System.Net.Http;
 using Kralizek.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using UserCom.Model;
 using UserCom.Model.Attributes;

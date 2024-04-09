@@ -42,7 +42,7 @@ namespace UserCom
 
         async Task IUserComUsersClient.DeleteAsync(int id)
         {
-            await SendAsync(HttpMethod.Delete, $"{USER_RESOURCE}/{id}");
+            await SendAsync(HttpMethod.Delete, $"{USER_RESOURCE}/{id}/");
         }
 
         async Task<PaginatedResult<User>> IUserComUsersClient.FilterAsync(IEnumerable<UserFilter> filters)
