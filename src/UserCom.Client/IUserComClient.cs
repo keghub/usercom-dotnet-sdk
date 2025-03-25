@@ -1,6 +1,7 @@
 using UserCom.Model.Attributes;
 using UserCom.Model.CRM;
 using UserCom.Model.Lists;
+using UserCom.Model.Segments;
 using UserCom.Model.Tags;
 using UserCom.Model.Users;
 
@@ -9,6 +10,8 @@ namespace UserCom
     public interface IUserComClient
     {
         IUserComUsersClient Users { get; }
+
+        IUserComUserSegmentClient UserSegments { get; }
 
         IUserComCustomIdUsersClient CustomIdUsers { get; }
 
