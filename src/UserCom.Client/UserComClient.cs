@@ -9,6 +9,7 @@ using UserCom.Model;
 using UserCom.Model.Attributes;
 using UserCom.Model.CRM;
 using UserCom.Model.Lists;
+using UserCom.Model.Segments;
 using UserCom.Model.Tags;
 using UserCom.Model.Users;
 
@@ -37,7 +38,7 @@ namespace UserCom
 
                 return new Lazy<PaginatedResult<T>>(() => {
                     var result = SendAsync<dynamic>(HttpMethod.Get, url).Result;
-                    
+
                     return CreatePaginatedResult<T>(result);
                 });
             }
@@ -62,6 +63,8 @@ namespace UserCom
         };
 
         public IUserComUsersClient Users => this;
+
+        public IUserComUserSegmentClient UserSegments => this;
 
         public IUserComCustomIdUsersClient CustomIdUsers => this;
 
