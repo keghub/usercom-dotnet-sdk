@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using UserCom.Serialization;
 
 namespace UserCom.Model.Attributes
 {
@@ -13,7 +14,7 @@ namespace UserCom.Model.Attributes
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("value")]
+        [JsonProperty("value"), JsonConverter(typeof(AttributeValueConverter))]
         public string Value { get; set; }
     }
 }
