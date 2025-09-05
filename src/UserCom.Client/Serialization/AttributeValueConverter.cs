@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
@@ -35,7 +36,7 @@ namespace UserCom.Serialization
             else if (Regex.IsMatch(strValue, ArrayRegex))
             {
                 var arrayStr = strValue.Replace("[", "").Replace("]", "");
-                var arrayValue = arrayStr.Split(',');
+                var arrayValue = arrayStr.Split(',').Select(s => s.Replace("\"", ""));
 
                 serializer.Serialize(writer, arrayValue);
             }
@@ -83,7 +84,7 @@ namespace UserCom.Serialization
             {
                 var arrayValue = serializer.Deserialize<string[]>(reader);
 
-                return $"[{string.Join(",", arrayValue)}]";
+                return $"[{string.Join(",", arrayValue.Select(s => $"\"{s}\""))}]";
             }
             catch { }
 

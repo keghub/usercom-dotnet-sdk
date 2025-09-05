@@ -230,7 +230,7 @@ namespace Tests.UserCom
                     Assert.That(result, Is.Not.Null);
                     Assert.That(result.Attributes, Is.Not.Null);
                     Assert.That(result.Attributes.Count, Is.EqualTo(1));
-                    Assert.That(result.Attributes[0].Value, Is.EqualTo($"[{value}]"));
+                    Assert.That(result.Attributes[0].Value, Is.EqualTo($"[\"{value}\"]"));
                 });
             }
 
