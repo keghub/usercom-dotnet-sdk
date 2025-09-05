@@ -5,18 +5,18 @@ namespace UserCom.Model.Attributes
     public enum ValueType
     {
         [EnumMember(Value = "boolean")]
-        Boolean,
+        Boolean = 1,
         [EnumMember(Value = "integer")]
-        Integer,
+        Integer = 2,
         [EnumMember(Value = "date")]
-        Date,
+        Date = 3,
         [EnumMember(Value = "string")]
-        String,
+        String = 4,
         [EnumMember(Value = "datetime")]
-        Datetime,
+        Datetime = 5,
         [EnumMember(Value = "fixed")]
-        Fixed,
+        Fixed = 6,
         [EnumMember(Value = "float")]
-        Float
+        Float = 7
     }
 }
