@@ -48,12 +48,12 @@ namespace UserCom
                     }
                     catch (HttpException httpException) when (httpException.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
-                        return new PaginatedResult<T>() { Results = new T[0] };
+                        return new PaginatedResult<T>() { Results = Array.Empty<T>() };
                     }
                     catch (AggregateException aggregateException)
                         when (aggregateException.InnerException is HttpException httpException && httpException.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
-                        return new PaginatedResult<T>() { Results = new T[0] };
+                        return new PaginatedResult<T>() { Results = Array.Empty<T>() };
                     }
                 });
             }

@@ -46,7 +46,7 @@ namespace Tests.UserCom
                         Content = new StringContent(JsonConvert.SerializeObject(new
                         {
                             count = 0,
-                            results = new object[0],
+                            results = Array.Empty<object>(),
                             next = $"https://{account}.user.com{nextUrl}"
                         })),
                         RequestMessage = new HttpRequestMessage(HttpMethod.Get, listAllUrl)
@@ -119,7 +119,7 @@ namespace Tests.UserCom
                         Content = new StringContent(JsonConvert.SerializeObject(new
                         {
                             count = 0,
-                            results = new object[0],
+                            results = Array.Empty<object>(),
                             next = $"https://{account}.user.com{nextUrl}"
                         })),
                         RequestMessage = new HttpRequestMessage(HttpMethod.Get, listAllUrl)
