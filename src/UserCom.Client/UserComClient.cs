@@ -33,13 +33,28 @@ namespace UserCom
         {
             Lazy<PaginatedResult<T>>? CreateLazyRef(string url)
             {
-                if(string.IsNullOrWhiteSpace(url))
+                if (string.IsNullOrWhiteSpace(url))
+                {
                     return null;
+                }
 
-                return new Lazy<PaginatedResult<T>>(() => {
-                    var result = SendAsync<dynamic>(HttpMethod.Get, url).Result;
+                return new Lazy<PaginatedResult<T>>(() =>
+                {
+                    try
+                    {
+                        var result = SendAsync<dynamic>(HttpMethod.Get, url).Result;
 
-                    return CreatePaginatedResult<T>(result);
+                        return CreatePaginatedResult<T>(result);
+                    }
+                    catch (HttpException httpException) when (httpException.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return new PaginatedResult<T>() { Results = new T[0] };
+                    }
+                    catch (AggregateException aggregateException)
+                        when (aggregateException.InnerException is HttpException httpException && httpException.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return new PaginatedResult<T>() { Results = new T[0] };
+                    }
                 });
             }
 
