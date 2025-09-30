@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Kralizek.Extensions.Http;
+using UserCom.Http;
 using UserCom.Model;
 using UserCom.Model.Segments;
 using UserCom.Model.Users;

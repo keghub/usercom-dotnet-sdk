@@ -1,6 +1,4 @@
 ﻿using AutoFixture.NUnit3;
-using Microsoft.Extensions.Logging;
-using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using UserCom;
@@ -15,7 +13,7 @@ namespace Integration
         [SetUp]
         public void Setup()
         {
-            _client = new UserComClient(ConfigHelper.GetAuthenticator(), Mock.Of<ILogger<UserComClient>>());
+            _client = new UserComClient(ConfigHelper.GetAuthenticator());
         }
 
         [Test, AutoData]

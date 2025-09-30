@@ -1,16 +1,10 @@
-﻿using AutoFixture.NUnit3;
-using Microsoft.Extensions.Logging;
-using Moq;
+﻿using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UserCom;
@@ -27,7 +21,6 @@ namespace Tests.UserCom
         {
             [Test, CustomAutoData]
             public async Task PaginatedResult_Next_does_not_throw_if_nextUrl_from_userCom_throws_404(
-                ILogger<UserComClient> logger,
                 Mock<HttpMessageHandler> handler,
                 string account)
             {
@@ -62,7 +55,7 @@ namespace Tests.UserCom
                     {
                         StatusCode = HttpStatusCode.NotFound,
                         Content = new StringContent(JsonConvert.SerializeObject(new { })),
-                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, nextUrl)
+                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, $"https://{account}.user.com{nextUrl}")
                     });
 
                 var authenticator = new UserComAuthenticator(account)
@@ -70,7 +63,7 @@ namespace Tests.UserCom
                     InnerHandler = handler.Object
                 };
 
-                var sut = new UserComClient(authenticator, logger);
+                var sut = new UserComClient(authenticator);
 
                 var initial = await sut.Lists.GetAllAsync();
 
@@ -100,7 +93,6 @@ namespace Tests.UserCom
 
             [Test, CustomAutoData]
             public async Task PaginatedResult_Next_returns_empty_paginatedResult_if_nextUrl_from_userCom_throws_404(
-                ILogger<UserComClient> logger,
                 Mock<HttpMessageHandler> handler,
                 string account)
             {
@@ -135,7 +127,7 @@ namespace Tests.UserCom
                     {
                         StatusCode = HttpStatusCode.NotFound,
                         Content = new StringContent(JsonConvert.SerializeObject(new { })),
-                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, nextUrl)
+                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, $"https://{account}.user.com{nextUrl}")
                     });
 
                 var authenticator = new UserComAuthenticator(account)
@@ -143,7 +135,7 @@ namespace Tests.UserCom
                     InnerHandler = handler.Object
                 };
 
-                var sut = new UserComClient(authenticator, logger);
+                var sut = new UserComClient(authenticator);
 
                 var initial = await sut.Lists.GetAllAsync();
 

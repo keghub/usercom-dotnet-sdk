@@ -1,4 +1,4 @@
-namespace UserCom.Client.Model.Users
+namespace UserCom.Model.Users
 {
     public static class AttributeNames
     {

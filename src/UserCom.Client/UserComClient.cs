@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Kralizek.Extensions.Http;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using UserCom.Http;
 using UserCom.Model;
 using UserCom.Model.Attributes;
 using UserCom.Model.CRM;
@@ -17,11 +16,9 @@ namespace UserCom
 {
     public partial class UserComClient : HttpRestClient, IUserComClient
     {
-        private readonly ILogger<UserComClient> _logger;
-
-        public UserComClient(UserComAuthenticator userComAuthenticator, ILogger<UserComClient> logger) : base(CreateClient(userComAuthenticator), SerializerSettings, logger)
+        public UserComClient(UserComAuthenticator userComAuthenticator) : base(CreateClient(userComAuthenticator), SerializerSettings)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         }
 
         private static HttpClient CreateClient(UserComAuthenticator authenticator)
@@ -46,12 +43,11 @@ namespace UserCom
 
                         return CreatePaginatedResult<T>(result);
                     }
-                    catch (HttpException httpException) when (httpException.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    catch (UserComClientException clientException) when (clientException.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
                         return new PaginatedResult<T>() { Results = Array.Empty<T>() };
                     }
-                    catch (AggregateException aggregateException)
-                        when (aggregateException.InnerException is HttpException httpException && httpException.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    catch (AggregateException aggregateException) when (aggregateException.InnerException is UserComClientException { StatusCode: System.Net.HttpStatusCode.NotFound })
                     {
                         return new PaginatedResult<T>() { Results = Array.Empty<T>() };
                     }
