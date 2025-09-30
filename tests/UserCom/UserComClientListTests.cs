@@ -55,7 +55,7 @@ namespace Tests.UserCom
                     {
                         StatusCode = HttpStatusCode.NotFound,
                         Content = new StringContent(JsonConvert.SerializeObject(new { })),
-                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, nextUrl)
+                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, $"https://{account}.user.com{nextUrl}")
                     });
 
                 var authenticator = new UserComAuthenticator(account)
@@ -127,7 +127,7 @@ namespace Tests.UserCom
                     {
                         StatusCode = HttpStatusCode.NotFound,
                         Content = new StringContent(JsonConvert.SerializeObject(new { })),
-                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, nextUrl)
+                        RequestMessage = new HttpRequestMessage(HttpMethod.Get, $"https://{account}.user.com{nextUrl}")
                     });
 
                 var authenticator = new UserComAuthenticator(account)
