@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using UserCom.Authentication;
 
-namespace UserCom
+namespace UserCom.NetCore.Setup
 {
     public static class ServiceCollectionExtensions
     {
