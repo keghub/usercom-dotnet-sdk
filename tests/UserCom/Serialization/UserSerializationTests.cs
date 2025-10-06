@@ -5,7 +5,7 @@ using NUnit.Framework;
 using UserCom;
 using UserCom.Model.Users;
 
-namespace Tests.UserCom
+namespace Tests.UserCom.Serialization
 {
     [TestFixture]
     public class UserSerializationTests
