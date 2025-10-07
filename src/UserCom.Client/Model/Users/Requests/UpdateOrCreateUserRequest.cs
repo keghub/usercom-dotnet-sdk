@@ -1,6 +1,7 @@
 #nullable enable
 
 using Newtonsoft.Json;
+using UserCom.Serialization;
 
 namespace UserCom.Model.Users.Requests
 {
@@ -9,7 +10,7 @@ namespace UserCom.Model.Users.Requests
         [JsonProperty("assigned_to")]
         public int? AssignedTo { get; set; }
 
-        [JsonProperty("city")]
+        [JsonProperty("city"), JsonConverter(typeof(StringValueMaxLengthConverter), 64)]
         public string? City { get; set; }
 
         [JsonProperty("company_id")]
@@ -24,7 +25,7 @@ namespace UserCom.Model.Users.Requests
         [JsonProperty("facebook_url")]
         public string? FacebookUrl { get; set; }
 
-        [JsonProperty("first_name")]
+        [JsonProperty("first_name"), JsonConverter(typeof(StringValueMaxLengthConverter), 40)]
         public string? FirstName { get; set; }
 
         [JsonProperty("gender")]
@@ -36,7 +37,7 @@ namespace UserCom.Model.Users.Requests
         [JsonProperty("gravatar_url")]
         public string? GravatarUrl { get; set; }
 
-        [JsonProperty("last_name")]
+        [JsonProperty("last_name"), JsonConverter(typeof(StringValueMaxLengthConverter), 40)]
         public string? LastName { get; set; }
 
         [JsonProperty("linkedin_url")]
@@ -45,7 +46,7 @@ namespace UserCom.Model.Users.Requests
         [JsonProperty("notifications")]
         public bool? Notifications { get; set; }
 
-        [JsonProperty("phone_number")]
+        [JsonProperty("phone_number"), JsonConverter(typeof(StringValueMaxLengthConverter), 64)]
         public string? PhoneNumber { get; set; }
 
         [JsonProperty("region")]

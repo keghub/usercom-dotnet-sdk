@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UserCom.Model;
 using UserCom.Model.Lists;
+using UserCom.Model.Lists.Requests;
 
 namespace UserCom
 {
@@ -11,7 +12,8 @@ namespace UserCom
 
         async Task<List> IUserComListsClient.CreateAsync(string name, string description)
         {
-            var result = await SendAsync<dynamic, List>(HttpMethod.Post, $"{LISTS_RESOURCE}/", new { name, description });
+            var request = new UpdateOrCreateListRequest { Name = name, Description = description };
+            var result = await SendAsync<UpdateOrCreateListRequest, List>(HttpMethod.Post, $"{LISTS_RESOURCE}/", request);
 
             return result;
         }
@@ -31,7 +33,8 @@ namespace UserCom
 
         async Task IUserComListsClient.UpdateAsync(int id, string? name, string? description)
         {
-            await SendAsync<dynamic>(HttpMethod.Put, $"{LISTS_RESOURCE}/{id}/", new { name, description });
+            var request = new UpdateOrCreateListRequest { Name = name, Description = description };
+            await SendAsync<UpdateOrCreateListRequest>(HttpMethod.Put, $"{LISTS_RESOURCE}/{id}/", request);
         }
     }
 }
