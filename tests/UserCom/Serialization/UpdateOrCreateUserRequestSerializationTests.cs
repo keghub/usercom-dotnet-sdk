@@ -1,4 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
+using UserCom;
 using UserCom.Model.Users.Requests;
 
 namespace Tests.UserCom.Serialization;
@@ -6,6 +10,52 @@ namespace Tests.UserCom.Serialization;
 [TestFixture]
 public class UpdateOrCreateUserRequestSerializationTests
 {
+    private const string VerifiedMemberPropertyName = "Verified Member";
+    private const string LatestMemberLoginPropertyName = "Latest Member Login";
+
+    [Test, CustomAutoData]
+    public void VerifiedMember_serializes_using_expected_property_name(bool expectedVerifiedMemberValue)
+    {
+        var request = new UpdateOrCreateUserRequest { VerifiedMember = expectedVerifiedMemberValue };
+
+        var serialized = JsonConvert.SerializeObject(request, UserComClient.SerializerSettings);
+        var json = JObject.Parse(serialized);
+
+        Assert.That(json.ContainsKey(VerifiedMemberPropertyName), Is.True);
+        Assert.That((bool?)json[VerifiedMemberPropertyName], Is.EqualTo(expectedVerifiedMemberValue));
+    }
+
+    [Test, CustomAutoData]
+    public void VerifiedMember_deserializes_using_expected_property_name(bool expectedVerifiedMemberValue)
+    {
+        var json = $"{{\"{VerifiedMemberPropertyName}\":{expectedVerifiedMemberValue.ToString().ToLowerInvariant()}}}";
+        var deserialized = JsonConvert.DeserializeObject<UpdateOrCreateUserRequest>(json, UserComClient.SerializerSettings);
+        Assert.That(deserialized?.VerifiedMember, Is.EqualTo(expectedVerifiedMemberValue));
+    }
+
+    [Test, CustomAutoData]
+    public void LatestMemberLogin_serializes_using_expected_property_name(DateTime expectedLatestMemberLogin)
+    {
+        expectedLatestMemberLogin = expectedLatestMemberLogin.ToUniversalTime();
+        var request = new UpdateOrCreateUserRequest { LatestMemberLogin = expectedLatestMemberLogin };
+
+        var serialized = JsonConvert.SerializeObject(request, UserComClient.SerializerSettings);
+        var json = JObject.Parse(serialized);
+
+        Assert.That(json.ContainsKey(LatestMemberLoginPropertyName), Is.True);
+        var serializedValue = json[LatestMemberLoginPropertyName]?.ToObject<DateTime>();
+        Assert.That(serializedValue, Is.EqualTo(expectedLatestMemberLogin));
+    }
+
+    [Test, CustomAutoData]
+    public void LatestMemberLogin_deserializes_using_expected_property_name(DateTime expectedLatestMemberLogin)
+    {
+        expectedLatestMemberLogin = expectedLatestMemberLogin.ToUniversalTime();
+        var json = $"{{\"{LatestMemberLoginPropertyName}\":\"{expectedLatestMemberLogin:O}\"}}";
+        var deserialized = JsonConvert.DeserializeObject<UpdateOrCreateUserRequest>(json, UserComClient.SerializerSettings);
+        Assert.That(deserialized?.LatestMemberLogin, Is.EqualTo(expectedLatestMemberLogin));
+    }
+
     [TestFixture]
     public class FirstNameSerializationTests : StringValueMaxLengthConverterTestBase<UpdateOrCreateUserRequest>
     {
