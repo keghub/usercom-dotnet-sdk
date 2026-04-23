@@ -1,5 +1,6 @@
 #nullable enable
 
+using System;
 using Newtonsoft.Json;
 using UserCom.Serialization;
 
@@ -87,5 +88,11 @@ namespace UserCom.Model.Users.Requests
 
         [JsonProperty("next_education_start_year")]
         public int? NextEducationStartYear { get; set; }
+
+        [JsonProperty("Verified Member")]
+        public string? VerifiedMember { get; set; }
+
+        [JsonProperty("Latest Member Login")]
+        public DateTime? LatestMemberLogin { get; set; }
     }
 }
