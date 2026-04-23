@@ -90,7 +90,7 @@ namespace UserCom.Model.Users.Requests
         public int? NextEducationStartYear { get; set; }
 
         [JsonProperty("Verified Member")]
-        public bool? VerifiedMember { get; set; }
+        public string? VerifiedMember { get; set; }
 
         [JsonProperty("Latest Member Login")]
         public DateTime? LatestMemberLogin { get; set; }

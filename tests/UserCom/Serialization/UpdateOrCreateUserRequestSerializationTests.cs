@@ -14,7 +14,7 @@ public class UpdateOrCreateUserRequestSerializationTests
     private const string LatestMemberLoginPropertyName = "Latest Member Login";
 
     [Test, CustomAutoData]
-    public void VerifiedMember_serializes_using_expected_property_name(bool expectedVerifiedMemberValue)
+    public void VerifiedMember_serializes_using_expected_property_name(string expectedVerifiedMemberValue)
     {
         var request = new UpdateOrCreateUserRequest { VerifiedMember = expectedVerifiedMemberValue };
 
@@ -22,13 +22,13 @@ public class UpdateOrCreateUserRequestSerializationTests
         var json = JObject.Parse(serialized);
 
         Assert.That(json.ContainsKey(VerifiedMemberPropertyName), Is.True);
-        Assert.That((bool?)json[VerifiedMemberPropertyName], Is.EqualTo(expectedVerifiedMemberValue));
+        Assert.That((string?)json[VerifiedMemberPropertyName], Is.EqualTo(expectedVerifiedMemberValue));
     }
 
     [Test, CustomAutoData]
-    public void VerifiedMember_deserializes_using_expected_property_name(bool expectedVerifiedMemberValue)
+    public void VerifiedMember_deserializes_using_expected_property_name(string expectedVerifiedMemberValue)
     {
-        var json = $"{{\"{VerifiedMemberPropertyName}\":{expectedVerifiedMemberValue.ToString().ToLowerInvariant()}}}";
+        var json = $"{{\"{VerifiedMemberPropertyName}\":\"{expectedVerifiedMemberValue}\"}}";
         var deserialized = JsonConvert.DeserializeObject<UpdateOrCreateUserRequest>(json, UserComClient.SerializerSettings);
         Assert.That(deserialized?.VerifiedMember, Is.EqualTo(expectedVerifiedMemberValue));
     }
