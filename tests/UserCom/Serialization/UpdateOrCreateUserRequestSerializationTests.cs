@@ -22,7 +22,7 @@ public class UpdateOrCreateUserRequestSerializationTests
         var json = JObject.Parse(serialized);
 
         Assert.That(json.ContainsKey(VerifiedMemberPropertyName), Is.True);
-        Assert.That((string?)json[VerifiedMemberPropertyName], Is.EqualTo(expectedVerifiedMemberValue));
+        Assert.That((string)json[VerifiedMemberPropertyName], Is.EqualTo(expectedVerifiedMemberValue));
     }
 
     [Test, CustomAutoData]
@@ -42,7 +42,7 @@ public class UpdateOrCreateUserRequestSerializationTests
         var json = JObject.Parse(serialized);
 
         Assert.That(json.ContainsKey(LatestMemberLoginPropertyName), Is.True);
-        var serializedValue = (string?)json[LatestMemberLoginPropertyName];
+        var serializedValue = (string)json[LatestMemberLoginPropertyName];
         Assert.That(serializedValue, Is.EqualTo(expectedLatestMemberLogin.ToString("yyyy-MM-dd")));
     }
 
