@@ -7,6 +7,7 @@ using UserCom.Model.Segments;
 using UserCom.Model.Users;
 using UserCom.Model.Users.Requests;
 
+#pragma warning disable S4039 // Explicit implementation required: multiple interfaces share identical method signatures with different semantics
 namespace UserCom
 {
     public partial class UserComClient : IUserComCustomIdUsersClient
@@ -144,7 +145,7 @@ namespace UserCom
         {
             if(string.IsNullOrWhiteSpace(request.UserId))
             {
-                throw new ArgumentException($"{nameof(request.UserId)} is missing or invalid in request");
+                throw new ArgumentException($"{nameof(request.UserId)} is missing or invalid", nameof(request));
             }
 
             var result = await SendAsync<UpdateCustomIdUserRequest, User>(HttpMethod.Put, $"{CUSTOMIDUSER_RESOURCE}/{request.UserId}/", request);
@@ -153,3 +154,4 @@ namespace UserCom
         }
     }
 }
+#pragma warning restore S4039

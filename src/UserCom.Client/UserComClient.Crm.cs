@@ -6,6 +6,7 @@ using UserCom.Model;
 using UserCom.Model.CRM;
 using UserCom.Model.CRM.Requests;
 
+#pragma warning disable S4039 // Explicit implementation required: multiple interfaces share identical method signatures with different semantics
 namespace UserCom
 {
     public partial class UserComClient : IUserComCrmClient
@@ -70,7 +71,7 @@ namespace UserCom
         {
             if (request.Id == default)
             {
-                throw new ArgumentException($"{nameof(request.Id)} is missing or invalid in request");
+                throw new ArgumentException($"{nameof(request.Id)} is missing or invalid", nameof(request));
             }
 
             var result = await SendAsync<Company>(HttpMethod.Put, $"{COMPANY_RESOURCE}/{request.Id}/");
@@ -79,3 +80,4 @@ namespace UserCom
         }
     }
 }
+#pragma warning restore S4039

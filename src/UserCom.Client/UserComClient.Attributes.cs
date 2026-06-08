@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using UserCom.Model;
 using UserCom.Model.Attributes;
 
+#pragma warning disable S4039 // Explicit implementation required: multiple interfaces share identical method signatures with different semantics
 namespace UserCom
 {
     public partial class UserComClient : IUserComAttributesClient
@@ -52,3 +53,4 @@ namespace UserCom
         }
     }
 }
+#pragma warning restore S4039

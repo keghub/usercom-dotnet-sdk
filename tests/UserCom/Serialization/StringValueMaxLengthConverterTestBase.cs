@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using AutoFixture;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -19,22 +21,18 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     private static string GenerateString(IFixture fixture, int length)
     {
-        var s = string.Empty;
-        while (s.Length < length)
+        var sb = new StringBuilder();
+        while (sb.Length < length)
         {
-            s += fixture.Create<string>();
-        }
-        if (s.Length > length)
-        {
-            s = s[..length];
+            sb.Append(fixture.Create<string>());
         }
 
-        return s;
+        return sb.Length > length ? sb.ToString(0, length) : sb.ToString();
     }
 
     [Test, CustomAutoData]
     public void Empty_object_can_be_serialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
         var obj = new TType();
 
@@ -45,9 +43,9 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     [Test, CustomAutoData]
     public void Empty_object_can_be_deserialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
-        var objStr = "{}";
+        const string objStr = "{}";
 
         var result = JsonConvert.DeserializeObject<TType>(objStr, UserComClient.SerializerSettings);
 
@@ -56,7 +54,7 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     [Test, CustomAutoData]
     public void Property_value_with_length_equal_to_MaxLength_can_be_serialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
         var obj = CreateObj(GenerateString(fixture, MaxLength));
 
@@ -67,7 +65,7 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     [Test, CustomAutoData]
     public void Property_value_with_length_equal_to_MaxLength_can_be_deserialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
         var value = GenerateString(fixture, MaxLength);
         var objStr = GetJsonStr(value);
@@ -79,9 +77,9 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     [Test, CustomAutoData]
     public void Property_value_with_length_less_than_MaxLength_can_be_serialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
-        var value = GenerateString(fixture, random.Next(1, MaxLength));
+        var value = GenerateString(fixture, RandomNumberGenerator.GetInt32(1, MaxLength));
         var obj = CreateObj(value);
         
         var result = JsonConvert.SerializeObject(obj, UserComClient.SerializerSettings);
@@ -91,9 +89,9 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     [Test, CustomAutoData]
     public void Property_value_with_length_less_than_MaxLength_can_be_deserialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
-        var value = GenerateString(fixture, random.Next(1, MaxLength));
+        var value = GenerateString(fixture, RandomNumberGenerator.GetInt32(1, MaxLength));
         var objStr = GetJsonStr(value);
 
         var result = JsonConvert.DeserializeObject<TType>(objStr, UserComClient.SerializerSettings);
@@ -103,9 +101,9 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     [Test, CustomAutoData]
     public void Property_value_with_length_more_than_MaxLength_can_be_serialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
-        var value = GenerateString(fixture, random.Next(MaxLength + 1, fixture.Create<Generator<int>>().First(i => i > MaxLength + 1)));
+        var value = GenerateString(fixture, RandomNumberGenerator.GetInt32(MaxLength + 1, fixture.Create<Generator<int>>().First(i => i > MaxLength + 1)));
         var obj = CreateObj(value);
 
         var result = JsonConvert.SerializeObject(obj, UserComClient.SerializerSettings);
@@ -116,9 +114,9 @@ public abstract class StringValueMaxLengthConverterTestBase<TType> where TType :
 
     [Test, CustomAutoData]
     public void Property_value_with_length_more_than_MaxLength_can_be_deserialized(
-        IFixture fixture, Random random)
+        IFixture fixture)
     {
-        var value = GenerateString(fixture, random.Next(MaxLength + 1, fixture.Create<Generator<int>>().First(i => i > MaxLength + 1)));
+        var value = GenerateString(fixture, RandomNumberGenerator.GetInt32(MaxLength + 1, fixture.Create<Generator<int>>().First(i => i > MaxLength + 1)));
         var objStr = GetJsonStr(value);
 
         var result = JsonConvert.DeserializeObject<TType>(objStr, UserComClient.SerializerSettings);

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net.Http;
 
 namespace UserCom
@@ -7,7 +8,7 @@ namespace UserCom
     {
         private const string apiUrl = "https://{0}.user.com/api/public/";
 
-        public UserComAuthenticator(string account) : base()
+        public UserComAuthenticator(string account)
         {
             if (account == null)
             {
@@ -20,7 +21,7 @@ namespace UserCom
             }
 
             InnerHandler = new HttpClientHandler();
-            ServiceUri = new Uri(string.Format(apiUrl, account));
+            ServiceUri = new Uri(string.Format(CultureInfo.InvariantCulture, apiUrl, account));
         }
 
         public virtual Uri ServiceUri { get; }
