@@ -34,26 +34,25 @@ public class UpdateOrCreateUserRequestSerializationTests
     }
 
     [Test, CustomAutoData]
-    public void LatestMemberLogin_serializes_using_expected_property_name(DateTime expectedLatestMemberLogin)
+    public void LatestMemberLogin_serializes_as_date_only(DateTime expectedLatestMemberLogin)
     {
-        expectedLatestMemberLogin = expectedLatestMemberLogin.ToUniversalTime();
         var request = new UpdateOrCreateUserRequest { LatestMemberLogin = expectedLatestMemberLogin };
 
         var serialized = JsonConvert.SerializeObject(request, UserComClient.SerializerSettings);
         var json = JObject.Parse(serialized);
 
         Assert.That(json.ContainsKey(LatestMemberLoginPropertyName), Is.True);
-        var serializedValue = json[LatestMemberLoginPropertyName]?.ToObject<DateTime>();
-        Assert.That(serializedValue, Is.EqualTo(expectedLatestMemberLogin));
+        var serializedValue = (string?)json[LatestMemberLoginPropertyName];
+        Assert.That(serializedValue, Is.EqualTo(expectedLatestMemberLogin.ToString("yyyy-MM-dd")));
     }
 
     [Test, CustomAutoData]
     public void LatestMemberLogin_deserializes_using_expected_property_name(DateTime expectedLatestMemberLogin)
     {
-        expectedLatestMemberLogin = expectedLatestMemberLogin.ToUniversalTime();
-        var json = $"{{\"{LatestMemberLoginPropertyName}\":\"{expectedLatestMemberLogin:O}\"}}";
+        var dateOnlyStr = expectedLatestMemberLogin.ToString("yyyy-MM-dd");
+        var json = $"{{\"{LatestMemberLoginPropertyName}\":\"{dateOnlyStr}\"}}";
         var deserialized = JsonConvert.DeserializeObject<UpdateOrCreateUserRequest>(json, UserComClient.SerializerSettings);
-        Assert.That(deserialized?.LatestMemberLogin, Is.EqualTo(expectedLatestMemberLogin));
+        Assert.That(deserialized?.LatestMemberLogin, Is.EqualTo(expectedLatestMemberLogin.Date));
     }
 
     [TestFixture]
