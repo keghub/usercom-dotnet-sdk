@@ -12,7 +12,7 @@ namespace UserCom.Serialization
         {
             if (value.HasValue)
             {
-                writer.WriteValue(value.Value.ToString(Format, CultureInfo.InvariantCulture));
+                writer.WriteValue($"{value.Value.Year:D4}-{value.Value.Month:D2}-{value.Value.Day:D2}");
             }
             else
             {
@@ -23,7 +23,9 @@ namespace UserCom.Serialization
         public override DateTime? ReadJson(JsonReader reader, Type objectType, DateTime? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             if (reader.Value == null)
+            {
                 return null;
+            }
 
             return DateTime.ParseExact(reader.Value.ToString()!, Format, CultureInfo.InvariantCulture, DateTimeStyles.None);
         }
