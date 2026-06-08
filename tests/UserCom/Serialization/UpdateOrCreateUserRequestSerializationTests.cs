@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using UserCom;
 using UserCom.Model.Users.Requests;
+using UserCom.Serialization;
 
 namespace Tests.UserCom.Serialization;
 
@@ -43,13 +45,13 @@ public class UpdateOrCreateUserRequestSerializationTests
 
         Assert.That(json.ContainsKey(LatestMemberLoginPropertyName), Is.True);
         var serializedValue = (string)json[LatestMemberLoginPropertyName];
-        Assert.That(serializedValue, Is.EqualTo(expectedLatestMemberLogin.ToString("yyyy-MM-dd")));
+        Assert.That(serializedValue, Is.EqualTo(expectedLatestMemberLogin.ToString(DateOnlyConverter.Format, CultureInfo.InvariantCulture)));
     }
 
     [Test, CustomAutoData]
     public void LatestMemberLogin_deserializes_using_expected_property_name(DateTime expectedLatestMemberLogin)
     {
-        var dateOnlyStr = expectedLatestMemberLogin.ToString("yyyy-MM-dd");
+        var dateOnlyStr = expectedLatestMemberLogin.ToString(DateOnlyConverter.Format, CultureInfo.InvariantCulture);
         var json = $"{{\"{LatestMemberLoginPropertyName}\":\"{dateOnlyStr}\"}}";
         var deserialized = JsonConvert.DeserializeObject<UpdateOrCreateUserRequest>(json, UserComClient.SerializerSettings);
         Assert.That(deserialized?.LatestMemberLogin, Is.EqualTo(expectedLatestMemberLogin.Date));
