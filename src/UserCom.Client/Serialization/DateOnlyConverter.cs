@@ -6,7 +6,7 @@ namespace UserCom.Serialization
 {
     public class DateOnlyConverter : JsonConverter<DateTime?>
     {
-        public const string Format = "yyyy-MM-dd";
+        public static readonly string Format = "yyyy-MM-dd";
 
         public override void WriteJson(JsonWriter writer, DateTime? value, JsonSerializer serializer)
         {
