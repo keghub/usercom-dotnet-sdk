@@ -187,6 +187,11 @@ namespace UserCom
             await SendAsync<dynamic>(HttpMethod.Put, $"{USER_RESOURCE}/mass_update_custom_attributes/", new { ids = userIds, attribute, value });
         }
 
+        async Task IUserComUsersClient.MergeAsync(int parentId, IEnumerable<int> userIds)
+        {
+            await SendAsync<dynamic, dynamic>(HttpMethod.Post, $"{USER_RESOURCE}/merge/", new { parent = parentId, user_list = userIds });
+        }
+
         async Task IUserComUsersClient.RemoveAttributeAsync(int userId, string attributeName)
         {
             await SendAsync<dynamic>(HttpMethod.Delete, $"{USER_RESOURCE}/{userId}/remove_attribute/", new { attribute = attributeName });

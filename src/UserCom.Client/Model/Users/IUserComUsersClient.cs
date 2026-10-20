@@ -59,5 +59,9 @@ namespace UserCom.Model.Users
         Task<string> MassUpdateAttributeAsync(IEnumerable<int> userIds, string attribute, string value);
 
         Task MassUpdateCustomAttributeAsync(IEnumerable<int> userIds, string attribute, object value);
+
+        // Merges the attribute values of the given users into the parent user. A value is taken from the parent first,
+        // then from the merged user with the lowest id, so nothing already on the parent is overwritten.
+        Task MergeAsync(int parentId, IEnumerable<int> userIds);
     }
 }
